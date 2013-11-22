@@ -1,72 +1,48 @@
 /*
- * list.h
+ * hydro.h
  *
  *  Created on: Nov 21, 2013
  *      Author: saasbook
  */
 
-#ifndef LIST_H_
-#define LIST_H_
+#ifndef HYDRO_H_
+#define HYDRO_H_
 
-struct ListItem {
-	int year;
-	double flow;
-};
+#include "list.h"
 
-struct Node {
-	ListItem item;
-	Node *next;
-};
+void displayHeader();
+//Print Title Screen
 
-class FlowList{
+int menu();
+//Print menu
+
+void display();
+//Display txt, average, and median
+
+void addData(const FlowList& itemA);
+//Add a data node
+
+void removeData();
+//Remove a data node
+
+void pressEnter();
+//Press enter cue
+
+double average();
+//Calculate the average
+
+double median();
+//Calculate the median
+
+void saveData();
+//Write new data to the txt
+
+class readData{
 public:
-  FlowList(); // PROMISES: Creates empty list.
-  FlowList(const FlowList& source);
-  FlowList& operator =(const FlowList& rhs);
-  ~FlowList();
-
-  void insert(const ListItem& itemA);
-  // PROMISES:
-  //    A node with a copy of itemA is added in
-  //    a way that preserves the nondecreasing
-  //    order of items in nodes.
-
-  void remove(int target_year);
-  //  PROMISES:
-  //    If no node has an item matching itemA,
-  //    list is unchanged.
-  //    Otherwise exactly one node with
-  //    its item == itemA is removed.
-
-  void print() const;
-  // PROMISES:
-  //   Prints items in list on a single line, with commas separating
-  //   the items and square brackets marking the ends of the list.
-  // NOTE:
-  //   This is different from the print function presented in lectures.
-
-  Node* cursor()const;
-
-  void reset();
-
-  ListItem& getItem()const;
-
-  bool isOn() const;
-
-  void forward();
-
-  int count();
-
 
 private:
-  Node *headM;
-
-  Node *cursorM;
-
-  void destroy();
-  // Deallocate all nodes, set headM to zero.
-
-  void copy(const FlowList& source);
-  // List becomes copy of source.
 };
-#endif /* LIST_H_ */
+
+
+
+#endif /* HYDRO_H_ */

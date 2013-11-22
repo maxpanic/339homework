@@ -85,7 +85,7 @@ void FlowList::remove(int target_year)
       maybe_doomed = maybe_doomed->next;
     }
 
-  	before->next = maybe_doomed->next;
+    before->next = maybe_doomed->next;
 
   }
 }
@@ -94,11 +94,11 @@ void FlowList::destroy()
 {
 Node *srcPtr;
 while(headM != NULL)
-	{
-		srcPtr=headM;
-		headM = headM->next;
-		free(srcPtr);
-	}
+  {
+    srcPtr=headM;
+    headM = headM->next;
+    free(srcPtr);
+  }
 }
 
 void FlowList::copy(const FlowList& source)
@@ -111,74 +111,74 @@ void FlowList::copy(const FlowList& source)
 //  cout << "FlowList::copy was called but isn't ready for use"
 //       << "--program is terminated.\n";
 //  exit(1);
-	if(source.headM == 0)
-	{
-		headM = 0;
-	}
-	else
-	{
-	Node *srcPtr = new Node;
-	srcPtr = source.headM;
-	Node *newCpy = new Node;
-	Node *cpyPtr = newCpy;
-	while(srcPtr)
-	{
-		newCpy->item=srcPtr->item;
-		if(srcPtr->next !=0)
-		{
-		newCpy->next = new Node;
-		newCpy = newCpy->next;
-		}
-		srcPtr = srcPtr->next;
-	}
-	headM = cpyPtr;
-	}
+  if(source.headM == 0)
+  {
+    headM = 0;
+  }
+  else
+  {
+  Node *srcPtr = new Node;
+  srcPtr = source.headM;
+  Node *newCpy = new Node;
+  Node *cpyPtr = newCpy;
+  while(srcPtr)
+  {
+    newCpy->item=srcPtr->item;
+    if(srcPtr->next !=0)
+    {
+    newCpy->next = new Node;
+    newCpy = newCpy->next;
+    }
+    srcPtr = srcPtr->next;
+  }
+  headM = cpyPtr;
+  }
 
 }
 
 Node* FlowList::cursor()const
 {
-	return cursorM;
+  return cursorM;
 }
 
 
 void FlowList::reset()
 {
-	cursorM=headM;
+  cursorM=headM;
 }
 
 ListItem& FlowList::getItem()const
 {
-	assert(cursor()!=NULL);
-	return cursorM->item;
+  assert(cursor()!=NULL);
+  return cursorM->item;
 }
 
 bool FlowList::isOn() const
 {
-	if(cursorM==NULL)
-	{
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}
+  if(cursorM==NULL)
+  {
+    return 0;
+  }
+  else
+  {
+    return 1;
+  }
 }
 
 void FlowList::forward()
 {
-	assert(cursor()!=NULL);
-	cursorM = cursorM->next;
+  assert(cursor()!=NULL);
+  cursorM = cursorM->next;
 }
 
 int FlowList::count()
 {
-	int counter=0;
-	reset();
-	while (cursorM != NULL)
-	{
-		counter ++;
-		forward();
-	}
-	return counter;
+  int counter=0;
+  reset();
+  while (cursorM != NULL)
+  {
+    counter ++;
+    forward();
+  }
+  return counter;
 }
