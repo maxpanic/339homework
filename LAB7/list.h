@@ -57,8 +57,6 @@ public:
 
   const int count();
 
-  void setY(int a);
-
 
 private:
   Node *headM;

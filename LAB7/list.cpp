@@ -68,24 +68,38 @@ void FlowList::insert(ListItem itemA)
 
 void FlowList::remove(int target_year)
 {
-  if (headM == 0 || target_year < headM->item.year)
-    return;
-
-  Node *doomed_node = 0;
-  if (target_year == headM->item.year) {
-    doomed_node = headM;
-    headM = headM->next;
-  }
-  else {
-    Node *before = headM;
-    Node *maybe_doomed = headM->next;
-    while(maybe_doomed != 0 && target_year > maybe_doomed->item.year) {
-      before = maybe_doomed;
-      maybe_doomed = maybe_doomed->next;
+//  if (headM == 0)
+//    return;
+//
+//  Node *doomed_node = 0;
+//  if (target_year == headM->item.year) {
+//    doomed_node = headM;
+//    headM = headM->next;
+//  }
+//  else {
+//    Node *before = headM;
+//    Node *maybe_doomed = headM->next;
+//    while(maybe_doomed != 0 && target_year > maybe_doomed->item.year) {
+//      before = maybe_doomed;
+//      maybe_doomed = maybe_doomed->next;
+//    }
+//
+//    before->next = maybe_doomed->next;
+//
+//  }
+  if(headM!=0)
+  {
+    Node*before=headM;
+    Node*after=headM->next;
+    while(after!=0)
+    {
+      if(after->item.year==target_year)
+      {
+        before->next=after->next;
+        free(after);
+      } before=after;
+      after=after->next;
     }
-
-    before->next = maybe_doomed->next;
-
   }
 }
 
@@ -182,8 +196,4 @@ const int FlowList::count()
   }
   reset();
   return counter;
-}
-void FlowList::setY(int a)
-{
-  cursorM->item.year=a;
 }

@@ -36,7 +36,7 @@ int main(void){
 			pressEnter();
 			break;
 		case 4:
-			y.removeData(x);
+			removeData(x);
 			pressEnter();
 			break;
 		case 5:
@@ -68,7 +68,6 @@ void pressEnter()
 	cout << "\n<<< Press Enter to Continue>>>>\n"<<endl;
 	if (cin.get() == '\n')
 	{
-		cout << "Great job!\n";
 		cin.clear();
 		cin.ignore(100,'\n');
 	}
@@ -114,27 +113,32 @@ void display(FlowList& itemB)
 	tmp = itemB;
 	tmp.reset();
 	cout <<"Year"<<setw(15)<<"Flow"<<endl;
-	while(i<y)
+//	while(i<y)
+//	{
+//	temp.flow = tmp.getItem().flow;
+//	temp.year = tmp.getItem().year;
+//	tmp.forward();
+//
+//		while(tmp.cursor()!=NULL)
+//		{
+//			if(tmp.getItem().year>temp.year)
+//			{
+//				temp.flow = tmp.getItem().flow;
+//				temp.year = tmp.getItem().year;
+//
+//			}
+//			tmp.forward();
+//		}
+//		cout <<temp.year<<setw(15)<<temp.flow<<endl;
+//		tmp.reset();
+//		tmp.remove(temp.year);
+//		tmp.reset();
+//		i++;
+//	}
+	while(itemB.cursor()!=NULL)
 	{
-	temp.flow = tmp.getItem().flow;
-	temp.year = tmp.getItem().year;
-	tmp.forward();
-
-		while(tmp.cursor()!=NULL)
-		{
-			if(tmp.getItem().year>temp.year)
-			{
-				temp.flow = tmp.getItem().flow;
-				temp.year = tmp.getItem().year;
-
-			}
-			tmp.forward();
-		}
-		cout <<temp.year<<setw(15)<<temp.flow<<endl;
-		tmp.reset();
-		tmp.remove(temp.year);
-		tmp.reset();
-		i++;
+		itemB.print();
+		itemB.forward();
 	}
 
 	cout <<"Average"<<average(itemB)<<endl;
@@ -142,30 +146,33 @@ void display(FlowList& itemB)
 	itemB.reset();
 }
 
-void data::addData(const FlowList& itemA)
+void data::addData(FlowList& itemA)
 {
-	FlowList* temp = new FlowList;
-
-	int a;
+	ListItem temp;
+	int a,y;
 	double b;
 	cout << "\nPlease enter a year: ";
 	cin >>a;
 	cout << "\nPlease enter the flow: ";
 	cin >>b;
-	//temp->headM->item->year=a;
-	//temp->headM->item->flow=b;
-
-	//temp->cursor()->item.year=a;
-	//temp->cursor()->item.flow=b;
-	//itemA.insert((temp->));
-
-	if(1)
+	temp.year=a;
+	temp.flow=b;
+	itemA.reset();
+	while(itemA.cursor()!=NULL)
 	{
-		cout << "New record inserted successfully.";
+		y=1;
+		if(itemA.getItem().year==a)
+		{
+			cout << "Error: duplicate data.";
+			y=0;
+			break;
+		}
+	itemA.forward();
 	}
-	else
+	if (y)
 	{
-		cout << "Error: duplicate data.";
+		itemA.insert(temp);
+		cout << "New record inserted successfully.";
 	}
 
 }
@@ -180,17 +187,18 @@ void data::saveData(const FlowList& itemA)
 		cout<<"Error: cannot open the file."<<"flow.txt<<endl";
 		exit(1);
 	}
+
 	outObj<<setw(10)<< itemA.getItem().year <<setw(15)<< itemA.getItem().flow <<endl;
 	outObj.close();
 	cout << "Data are saved to the file.";
 }
 
-void data::removeData(const FlowList& itemA)
+void removeData(FlowList& itemA)
 {
 	int a;
 	cout << "Please enter the year that you want to remove: ";
 	cin >> a;
-
+	itemA.remove(a);
 	if(1)
 	{
 		cout << "Record successfully removed.";
@@ -237,7 +245,7 @@ double median(FlowList& itemA)
 	}
 	else
 	{
-		for(int i=0;i<(y/2)+1;i++)
+		for(int i=0;i<(y/2);i++)
 		{
 			itemA.forward();
 		}

@@ -32,6 +32,10 @@ double median(FlowList& itemA);
 void display(FlowList& itemB);
 //Display txt, average, and median
 
+void removeData(FlowList& itemA);
+//Remove a data node
+
+
 class data{
 public:
 
@@ -39,11 +43,9 @@ public:
 	void saveData(const FlowList& itemA);
 	//Write new data to the txt
 
-	void addData(const FlowList& itemA);
+	void addData(FlowList& itemA);
 	//Add a data node
 
-	void removeData(const FlowList& itemA);
-	//Remove a data node
 
 private:
 };
