@@ -7,23 +7,43 @@
 
 #ifndef HYDRO_H_
 #define HYDRO_H_
-
+#include <fstream>
+#include <iomanip>
 #include "list.h"
 
 void displayHeader();
 //Print Title Screen
-void menu();
 
-void display();
+int menu();
+//Print menu
 
-FlowList addData(const ListItem& itemA);
+void pressEnter();
+//Press enter cue
 
-FlowList removeData(int target_year);
+int readData(FlowList& itemA);
+//Read data
 
-bool pressEnter();
+double average(FlowList& itemA);
+//Calculate the average
 
-class readData{
+double median(FlowList& itemA);
+//Calculate the median
+
+void display(FlowList& itemB);
+//Display txt, average, and median
+
+class data{
 public:
+
+
+	void saveData(const FlowList& itemA);
+	//Write new data to the txt
+
+	void addData(const FlowList& itemA);
+	//Add a data node
+
+	void removeData(const FlowList& itemA);
+	//Remove a data node
 
 private:
 };

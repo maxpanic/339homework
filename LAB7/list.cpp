@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <assert.h>
 #include <stdlib.h>
 #include "list.h"
@@ -37,28 +38,26 @@ FlowList::~FlowList()
 
 void FlowList::print() const
 {
-  cout << '[';
-  if (headM != 0) {
-    cout << ' ' << headM->item.year;
-    for (const Node *p = headM->next; p != 0; p = p->next)
-      cout << ", " << p->item.flow;
+  if (cursorM != 0)
+  {
+    cout << cursorM->item.year<< setw(15) << cursorM->item.flow <<endl;
   }
-  cout << " ]\n";
 }
 
-void FlowList::insert(const ListItem& itemA)
+void FlowList::insert(ListItem itemA)
 {
   Node *new_node = new Node;
   new_node->item.year = itemA.year;
+  new_node->item.flow = itemA.flow;
 
-  if (headM == 0 || itemA.year <= headM->item.year) {
+  if (headM == 0 || itemA.flow <= headM->item.flow) {
     new_node->next = headM;
     headM = new_node;
   }
   else {
     Node *before = headM;      // will point to node in front of new node
     Node *after = headM->next; // will be 0 or point to node after new node
-    while(after != 0 && itemA.year > after->item.year) {
+    while(after != 0 && itemA.flow > after->item.flow) {
       before = after;
       after = after->next;
     }
@@ -123,7 +122,8 @@ void FlowList::copy(const FlowList& source)
   Node *cpyPtr = newCpy;
   while(srcPtr)
   {
-    newCpy->item=srcPtr->item;
+    newCpy->item.flow=srcPtr->item.flow;
+    newCpy->item.year=srcPtr->item.year;
     if(srcPtr->next !=0)
     {
     newCpy->next = new Node;
@@ -136,14 +136,14 @@ void FlowList::copy(const FlowList& source)
 
 }
 
-Node* FlowList::cursor()const
+const Node* FlowList::cursor()const
 {
   return cursorM;
 }
 
-
-void FlowList::reset()
+const void FlowList::reset()
 {
+
   cursorM=headM;
 }
 
@@ -165,13 +165,13 @@ bool FlowList::isOn() const
   }
 }
 
-void FlowList::forward()
+const void FlowList::forward()
 {
   assert(cursor()!=NULL);
   cursorM = cursorM->next;
 }
 
-int FlowList::count()
+const int FlowList::count()
 {
   int counter=0;
   reset();
@@ -180,5 +180,10 @@ int FlowList::count()
     counter ++;
     forward();
   }
-  return counter;
+  reset();
+  return counter-1;
+}
+void FlowList::setY(int a)
+{
+  cursorM->item.year=a;
 }
