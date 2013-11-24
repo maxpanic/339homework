@@ -112,30 +112,31 @@ void display(FlowList& itemB)
 	ListItem temp;
 	FlowList tmp;
 	tmp = itemB;
-	temp.flow = itemB.getItem().flow;
-	temp.year = itemB.getItem().year;
+	tmp.reset();
 	cout <<"Year"<<setw(15)<<"Flow"<<endl;
-	while(i<=y)
+	while(i<y)
 	{
+	temp.flow = tmp.getItem().flow;
+	temp.year = tmp.getItem().year;
+	tmp.forward();
+
 		while(tmp.cursor()!=NULL)
 		{
 			if(tmp.getItem().year>temp.year)
 			{
-				temp.flow = itemB.getItem().flow;
-				temp.year = itemB.getItem().year;
+				temp.flow = tmp.getItem().flow;
+				temp.year = tmp.getItem().year;
 
 			}
-			itemB.forward();
+			tmp.forward();
 		}
 		cout <<temp.year<<setw(15)<<temp.flow<<endl;
+		tmp.reset();
 		tmp.remove(temp.year);
+		tmp.reset();
 		i++;
 	}
-//	while(itemB.cursor()!=temp.cursor())
-//	{
-//		      // will point to node in front of new node
-//
-//	}
+
 	cout <<"Average"<<average(itemB)<<endl;
 	cout <<"Median"<<median(itemB)<<endl;
 	itemB.reset();
@@ -221,13 +222,13 @@ double median(FlowList& itemA)
 	y= itemA.count();
 	if (y%2 ==0)
 	{
-		for(int i=0;i<(y/2);i++)
+		for(int i=0;i<(y/2)-1;i++)
 		{
 			itemA.forward();
 		}
 		q = itemA.getItem().flow;
 		itemA.reset();
-		for(int i=0;i<(y/2)+1;i++)
+		for(int i=0;i<(y/2);i++)
 		{
 			itemA.forward();
 		}
@@ -253,9 +254,9 @@ int readData(FlowList& itemA)
 	ListItem tmp;
 	ifstream inObj;
 	inObj.open("flow.txt");
-	while(!inObj.eof())
+	while(inObj>>a>>b)
 	{
-		inObj>>a>>b;
+
 		tmp.year = a;
 		tmp.flow = b;
 		itemA.insert(tmp);

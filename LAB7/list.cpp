@@ -181,7 +181,7 @@ const int FlowList::count()
     forward();
   }
   reset();
-  return counter-1;
+  return counter;
 }
 void FlowList::setY(int a)
 {
