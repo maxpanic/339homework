@@ -38,9 +38,9 @@ FlowList::~FlowList()
 
 void FlowList::print() const
 {
-  if (cursorM != 0)
+  if (cursorM != NULL)
   {
-    cout << cursorM->item.year<< setw(15) << cursorM->item.flow <<endl;
+    cout << cursorM->item.year<< setw(12)<< setfill(' ') << cursorM->item.flow <<endl;
   }
 }
 
@@ -68,36 +68,26 @@ void FlowList::insert(ListItem itemA)
 
 void FlowList::remove(int target_year)
 {
-//  if (headM == 0)
-//    return;
-//
-//  Node *doomed_node = 0;
-//  if (target_year == headM->item.year) {
-//    doomed_node = headM;
-//    headM = headM->next;
-//  }
-//  else {
-//    Node *before = headM;
-//    Node *maybe_doomed = headM->next;
-//    while(maybe_doomed != 0 && target_year > maybe_doomed->item.year) {
-//      before = maybe_doomed;
-//      maybe_doomed = maybe_doomed->next;
-//    }
-//
-//    before->next = maybe_doomed->next;
-//
-//  }
   if(headM!=0)
   {
-    Node*before=headM;
-    Node*after=headM->next;
+    Node *doomed_node = 0;
+      if (target_year == headM->item.year) // If the target year is in the first entry.
+      {
+      doomed_node = headM;
+      headM = headM->next; // Set head to next.
+    }
+    Node*before=headM; // Create a node called before then set it to headM.
+    Node*after=headM->next; // Create a node called after and set it to headM->next.
+
+    // Do until the end of the list.
     while(after!=0)
     {
-      if(after->item.year==target_year)
+      if(after->item.year==target_year) // Check each item in after for the target year.
       {
-        before->next=after->next;
+        before->next=after->next; // Set before's next to after's next, so this node can be 'removed'
         free(after);
-      } before=after;
+      }
+      before=after; // Move the node pointers up.
       after=after->next;
     }
   }
@@ -106,24 +96,17 @@ void FlowList::remove(int target_year)
 void FlowList::destroy()
 {
 Node *srcPtr;
-while(headM != NULL)
+while(headM != NULL) // Do until headM is NULL.
   {
-    srcPtr=headM;
-    headM = headM->next;
-    free(srcPtr);
+    srcPtr=headM; // Set srcPtr to headM.
+    headM = headM->next; // Move headM up.
+    free(srcPtr); // free srcPtr.
   }
 }
 
 void FlowList::copy(const FlowList& source)
 {
-  // The only effect of the next line is to tell the compiler
-  // not to generate an "unused argument" warning.  Don't leave it
-  // it in your solution.
-//  (void) source;
-//
-//  cout << "FlowList::copy was called but isn't ready for use"
-//       << "--program is terminated.\n";
-//  exit(1);
+  // This was all copied from OLList.cpp by unknown.
   if(source.headM == 0)
   {
     headM = 0;
@@ -152,23 +135,23 @@ void FlowList::copy(const FlowList& source)
 
 const Node* FlowList::cursor()const
 {
-  return cursorM;
+  return cursorM; // Return the node cursorM is pointing to.
 }
 
-const void FlowList::reset()
+void FlowList::reset()
 {
-
-  cursorM=headM;
+  cursorM=headM; // Set cursorM to headM.
 }
 
 ListItem& FlowList::getItem()const
 {
   assert(cursor()!=NULL);
-  return cursorM->item;
+  return cursorM->item; // Return the ListItem cursorM is pointing to.
 }
 
 bool FlowList::isOn() const
 {
+  // Checks if cursorM is NULL, returns bool truth.
   if(cursorM==NULL)
   {
     return 0;
@@ -179,21 +162,23 @@ bool FlowList::isOn() const
   }
 }
 
-const void FlowList::forward()
+void FlowList::forward()
 {
   assert(cursor()!=NULL);
-  cursorM = cursorM->next;
+  cursorM = cursorM->next; // Move cursorM to the next node.
 }
 
 const int FlowList::count()
 {
-  int counter=0;
-  reset();
+  int counter=0; // Initialize counter.
+  reset(); // Reset pointer.
+
+  // Do until cursorM is NULL. Increment counter.
   while (cursorM != NULL)
   {
     counter ++;
     forward();
   }
-  reset();
-  return counter;
+  reset(); // Reset pointer.
+  return counter; // Return the amount of nodes.
 }

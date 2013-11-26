@@ -12,44 +12,33 @@
 #include "list.h"
 
 void displayHeader();
-//Print Title Screen
+//PROMISES: Print Title Screen
 
 int menu();
-//Print menu
+//PROMISES: Print menu
 
 void pressEnter();
-//Press enter cue
+//PROMISES: Press enter cue
 
 int readData(FlowList& itemA);
-//Read data
+//PROMISES: Read data
 
 double average(FlowList& itemA);
-//Calculate the average
+//PROMISES: Calculate the average.
 
 double median(FlowList& itemA);
-//Calculate the median
+//PROMISES: Calculate the median.
 
 void display(FlowList& itemB);
-//Display txt, average, and median
+//PROMISES: Display txt, average, and median
 
 void removeData(FlowList& itemA);
-//Remove a data node
+//PROMISES: Remove a data node
 
+void addData(FlowList& itemA,int autoMatic,int newYear,double newFlow);
+//PROMISES: Add a data node
 
-class data{
-public:
-
-
-	void saveData(const FlowList& itemA);
-	//Write new data to the txt
-
-	void addData(FlowList& itemA);
-	//Add a data node
-
-
-private:
-};
-
-
+void saveData(FlowList& itemA);
+//PROMISES: Write new data to the txt
 
 #endif /* HYDRO_H_ */

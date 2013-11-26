@@ -14,9 +14,8 @@ using namespace std;
 
 int main(void){
 	FlowList x;
-	int numRecords;
+	int numRecords=0;
 	displayHeader();
-	data y;
 	numRecords = readData(x);
 
 	int quit = 0;
@@ -28,11 +27,11 @@ int main(void){
 			pressEnter();
 			break;
 		case 2:
-			y.addData(x);
+			addData(x,0,0,0);
 			pressEnter();
 			break;
 		case 3:
-			y.saveData(x);
+			saveData(x);
 			pressEnter();
 			break;
 		case 4:
@@ -49,6 +48,27 @@ int main(void){
 		}
 		if(quit == 1) break;
 	}
+	FlowList copy1;
+	copy1 =x;
+	addData(copy1,1,2012,459.99);
+	addData(copy1,1,2013,2000.34);
+
+	FlowList copy2;
+	copy2 = copy1;
+	copy2.remove(1922);
+	copy2.remove(2003);
+	copy2.remove(2001);
+
+	cout << "\nValues in copy2 are:\n";
+	display(copy2);
+
+	cout << "\nValues in copy1 are:\n";
+	display(copy1);
+
+	cout << "\nValues in x are:\n";
+	display(x);
+
+	return 0;
 }
 
 void displayHeader()
@@ -59,40 +79,35 @@ void displayHeader()
 		 << "Lab section: B03"
 		 << "Instructor : M. Moshirpour\n"
 		 << "Teaching Assistant: Devin Smith\n"
-		 << "Produced by: Sean Robertson and Nabil Muthanna"<< endl;
+		 << "Produced by: Sean Robertson and Nabil Muthanna\n"
+		 << "Please press enter twice." <<endl;
 	pressEnter();
 }
 
 void pressEnter()
 {
-	cout << "\n<<< Press Enter to Continue>>>>\n"<<endl;
-	if (cin.get() == '\n')
+	cout << "\n<<< Press Enter to Continue>>>>"<<endl;
+	if (cin.get() == '\n') // Wait for input and check if input was strictly the enter key.
 	{
-		cin.clear();
-		cin.ignore(100,'\n');
+		cin.clear(); // Clear the cin buffer.
+		cin.ignore(100,'\n'); // Ignore all values except for \n and continue.
+
 	}
-	else
+	else // If not, display a gentle reminder and continue.
 	{
 		cout << "I meant ONLY the ENTER key... Oh well.\n";
 		cin.clear();
 		cin.ignore(100,'\n');
 	}
 
-//	while ( true )
-//	{
-//
-//	  if ( cin.get() == '\n' )
-//	    break;
-//
-//	  cin.clear();                 // clear the flags
-//	  cin.ignore( 1024, '\n' );    // ignore at most 1024 chars until '\n' found
-//	}
 
 }
 
 int menu()
 {
-	int a;
+	int input; // Set a var to hold the user input.
+
+	// Display the options.
 	cout << "Please select one of the following operations\n"
 		 << "1. Display flow list, average and median\n"
 		 << "2. Add data\n"
@@ -100,19 +115,27 @@ int menu()
 		 << "4. Remove data\n"
 		 << "5. Quit"
 		 << "Enter your choice (1, 2, 3, 4, or 5):" << endl;
-	cin >> a;
-	return a;
+	cin >> input; // Get input.
+	return input; // Return input for use in a switch.
 }
 
 void display(FlowList& itemB)
 {
-	itemB.reset();
-	int y = itemB.count(),i=0;
-	ListItem temp;
-	FlowList tmp;
-	tmp = itemB;
-	tmp.reset();
-	cout <<"Year"<<setw(15)<<"Flow"<<endl;
+	itemB.reset(); // Reset the cursor.
+	if (itemB.isOn()) // Quick check to make sure itemB has values and reset worked.
+	{
+
+	// Format the table header.
+	cout <<"\nYear"<<setw(12)<<"Flow"<<endl;
+	cout <<setw(16)<<setfill('-')<<""<<endl;
+
+// The following function was created hastily to print the order by year, not implemented in this version
+// but potentially useful.
+//  ListItem temp;
+//  FlowList tmp;
+//  tmp = itemB;
+//  tmp.reset();
+//  int i=0, y = itemB.count();
 //	while(i<y)
 //	{
 //	temp.flow = tmp.getItem().flow;
@@ -135,141 +158,205 @@ void display(FlowList& itemB)
 //		tmp.reset();
 //		i++;
 //	}
+
+	// Do until the end of the link list.
 	while(itemB.cursor()!=NULL)
 	{
-		itemB.print();
-		itemB.forward();
+		itemB.print(); // Print the values at the node.
+		itemB.forward(); // Move the cursor forward.
 	}
 
-	cout <<"Average"<<average(itemB)<<endl;
-	cout <<"Median"<<median(itemB)<<endl;
-	itemB.reset();
+	// Print the average and median values as calculated by the functions.
+	cout <<"\nThe annual average of the flow is: "<<average(itemB)<<" million cubic meters."<<endl;
+	cout <<"The median flow is: "<<median(itemB)<<" million cubic meters." <<endl;
+	itemB.reset(); // Reset the node for safety.
+	}
 }
 
-void data::addData(FlowList& itemA)
+void addData(FlowList& itemA,int autoMatic,int newYear,double newFlow)
 {
-	ListItem temp;
-	int a,y;
-	double b;
+	ListItem temp; // Create a temp struct for passing data.
+	int notExist=0; // Variable used in determining if duplicate data exists.
+
+	// If values are to be manually added by uses autoMatic is false.
+	if (autoMatic==0)
+	{
 	cout << "\nPlease enter a year: ";
-	cin >>a;
+	cin >>newYear;
 	cout << "\nPlease enter the flow: ";
-	cin >>b;
-	temp.year=a;
-	temp.flow=b;
-	itemA.reset();
+	cin >>newFlow;
+	}
+
+	// Set user data inside the temp struct, so it can be passed forward.
+	temp.year=newYear;
+	temp.flow=newFlow;
+	itemA.reset(); // Reset the cursor.
+	if(itemA.isOn()) // Check to see if reset was successful.
+	{
+
+	// Do until the end of the list.
 	while(itemA.cursor()!=NULL)
 	{
-		y=1;
-		if(itemA.getItem().year==a)
+		notExist=1; // So far the users data is unique.
+
+		// When the loop finds a matching year.
+		if(itemA.getItem().year==newYear)
 		{
-			cout << "Error: duplicate data.";
-			y=0;
+			// Print and set notExist to false.
+			cout << "\nError: duplicate data.\n";
+			notExist=0;
 			break;
 		}
-	itemA.forward();
+	itemA.forward(); // Move the cursor forward.
 	}
-	if (y)
+
+	// If unique call insert and print success.
+	if (notExist)
 	{
 		itemA.insert(temp);
-		cout << "New record inserted successfully.";
+		cout << "\nNew record inserted successfully.\n";
 	}
-
+	itemA.reset(); // Reset the cursor.
+	}
 }
 
-void data::saveData(const FlowList& itemA)
+void saveData(FlowList& itemA)
 {
+	ofstream outObj; // Create new ofstream object.
+	outObj.open("flow.txt"); // Open flow.txt.
 
-	ofstream outObj;
-	outObj.open("flow.txt");
+	// If open fails warn the user and exit.
 	if(! outObj)
 	{
-		cout<<"Error: cannot open the file."<<"flow.txt<<endl";
+		cout<<"\nError: cannot open the file."<<"flow.txt"<<endl;
 		exit(1);
 	}
+	itemA.reset(); // Reset the cursor.
+	if (itemA.isOn())
+	{
 
-	outObj<<setw(10)<< itemA.getItem().year <<setw(15)<< itemA.getItem().flow <<endl;
-	outObj.close();
-	cout << "Data are saved to the file.";
+	// Do until the end of the linked list. Print The current node, and move the cursor forward.
+	while(itemA.cursor()!=NULL)
+	{
+		outObj<< itemA.getItem().year <<setw(12)<< itemA.getItem().flow <<endl;
+		itemA.forward();
+	}
+	itemA.reset(); // Reset the cursor.
+	outObj.close(); // Close the file.
+	cout << "\nData are saved to the file.\n";
+	}
 }
 
 void removeData(FlowList& itemA)
 {
-	int a;
+	int removeYear,notExist=0; // removeYear to hold target year, notExist to be used for uniquness checking.
 	cout << "Please enter the year that you want to remove: ";
-	cin >> a;
-	itemA.remove(a);
-	if(1)
+	cin >> removeYear;
+	itemA.reset(); // Reset the cursor.
+	if (itemA.isOn())
 	{
-		cout << "Record successfully removed.";
+
+	// Do until the end of the list.
+	while(itemA.cursor()!=NULL)
+	{
+		notExist=1; // No matches yet.
+
+		// Check each year item. Call remove on match, set notExist to false and message user.
+		if(itemA.getItem().year==removeYear)
+		{
+			itemA.remove(removeYear);
+			cout << "\nRecord successfully removed.\n";
+			notExist=0;
+			break;
+		}
+		itemA.forward(); // Move the cursor forward.
 	}
-	else
+
+	// If no matches were found prompt the user.
+	if(notExist)
 	{
-		cout << "Error: No such data.";
+		cout << "\nError: No such data.\n";
+	}
+	itemA.reset(); // Reset the cursor.
 	}
 }
 
 double average(FlowList& itemA)
 {
-	itemA.reset();
-	double g=0;
+	double sum=0;
+	itemA.reset(); // Reset the cursor.
+	if(itemA.isOn()) // Check if reset was successful.
+	{
+
+	// Do until the end of the list.
 	while(itemA.cursor() != NULL)
 	{
-		g += itemA.getItem().flow;
-		itemA.forward();
+		sum += itemA.getItem().flow; // Add each flow item together.
+		itemA.forward(); // Move the cursor forward.
 	}
-	itemA.reset();
-	return g/itemA.count();
+	itemA.reset(); // Reset the cursor
+	}
+	return sum/itemA.count(); // Return the average, which is calculated by dividing the sum by the amount of nodes.
 }
 
 double median(FlowList& itemA)
 {
-	int y=0;
-	double q=0;
-	itemA.reset();
-	y= itemA.count();
-	if (y%2 ==0)
+	int nodes=0; // Initialize the nodes.
+	double median=0; // Initialize the median.
+	itemA.reset(); // Reset the counter.
+	if(itemA.isOn()) // Check to see if reset operation was successful.
 	{
-		for(int i=0;i<(y/2)-1;i++)
-		{
-			itemA.forward();
-		}
-		q = itemA.getItem().flow;
-		itemA.reset();
-		for(int i=0;i<(y/2);i++)
-		{
-			itemA.forward();
-		}
-		q += itemA.getItem().flow;
-		q /= 2;
-	}
-	else
+	nodes= itemA.count(); // Get the number of nodes.
+
+	// Two different methods to determine the median based on odd or even symmetry.
+	if (nodes%2 ==0) // If an even amount of nodes.
 	{
-		for(int i=0;i<(y/2);i++)
+		for(int i=0;i<(nodes/2)-1;i++) // Count up the the first of the two middle nodes.
 		{
 			itemA.forward();
 		}
-		q = itemA.getItem().flow;
+		median = itemA.getItem().flow; // Add to the median.
+		itemA.forward(); // Go to the next middle node.
+		median += itemA.getItem().flow; // Add the two together.
+		median /= 2; // Crudely interpolate.
 	}
-	itemA.reset();
-	return q;
+	else // If an odd node.
+	{
+		for(int i=0;i<(nodes/2);i++) // Move up to the middle
+		{
+			itemA.forward();
+		}
+		median = itemA.getItem().flow; // Get the middle value.
+	}
+	itemA.reset(); // Reset the counter.
+	}
+	return median; // Return the median.
 }
 
 int readData(FlowList& itemA)
 {
-	int a,i=0;
-	double b;
-	ListItem tmp;
-	ifstream inObj;
-	inObj.open("flow.txt");
-	while(inObj>>a>>b)
-	{
+	int newYear;
+	double newFlow;
+	ListItem temp; // Create a list item for temporary storage of variables.
+	ifstream inObj; // Create a new ifstream object.
+	inObj.open("flow.txt"); // Attempt opening of file.
 
-		tmp.year = a;
-		tmp.flow = b;
-		itemA.insert(tmp);
+	// If open fails warn the user and exit.
+	if(! inObj)
+	{
+		cout<<"\nError: cannot open the file."<<"flow.txt"<<endl;
+		exit(1);
 	}
-	inObj.close();
-	i=itemA.count();
-	return i;
+
+	// While cin is successful, until EOF is detected.
+	while(inObj>>newYear>>newFlow)
+	{
+		// Set temp to the read values, and insert the node.
+		temp.year = newYear;
+		temp.flow = newFlow;
+		itemA.insert(temp);
+	}
+	inObj.close(); // Close the file.
+
+	return itemA.count(); // Return the number of nodes.
 }

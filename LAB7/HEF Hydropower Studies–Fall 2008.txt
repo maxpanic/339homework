@@ -1,0 +1,148 @@
+HEF Hydropower Studies–Fall 2008
+Program: Flow Studies
+Version: 1.0
+Lab section: B03Instructor : M. Moshirpour
+Teaching Assistant: Devin Smith
+Produced by: Sean Robertson and Nabil Muthanna
+Please press enter twice.
+
+<<< Press Enter to Continue>>>>
+
+
+Please select one of the following operations
+1. Display flow list, average and median
+2. Add data
+3. Save data into the file
+4. Remove data
+5. QuitEnter your choice (1, 2, 3, 4, or 5):
+1
+
+Year        Flow
+----------------
+1970      100.34
+2000      110.22
+1999      110.99
+1945      145.66
+1922      192.99
+1971      209.99
+1900      220.11
+2001      231.44
+1989      234.98
+1946      300.99
+
+The annual average of the flow is: 185.771 million cubic meters.
+The median flow is: 201.49 million cubic meters.
+
+<<< Press Enter to Continue>>>>
+
+Please select one of the following operations
+1. Display flow list, average and median
+2. Add data
+3. Save data into the file
+4. Remove data
+5. QuitEnter your choice (1, 2, 3, 4, or 5):
+2
+
+Please enter a year: 1995
+
+Please enter the flow: 102.99
+
+New record inserted successfully.
+
+<<< Press Enter to Continue>>>>
+
+Please select one of the following operations
+1. Display flow list, average and median
+2. Add data
+3. Save data into the file
+4. Remove data
+5. QuitEnter your choice (1, 2, 3, 4, or 5):
+3
+
+Data are saved to the file.
+
+<<< Press Enter to Continue>>>>
+
+Please select one of the following operations
+1. Display flow list, average and median
+2. Add data
+3. Save data into the file
+4. Remove data
+5. QuitEnter your choice (1, 2, 3, 4, or 5):
+4
+Please enter the year that you want to remove: 1995
+
+Record successfully removed.
+
+<<< Press Enter to Continue>>>>
+
+Please select one of the following operations
+1. Display flow list, average and median
+2. Add data
+3. Save data into the file
+4. Remove data
+5. QuitEnter your choice (1, 2, 3, 4, or 5):
+5
+
+Program terminated!
+
+
+New record inserted successfully.
+
+New record inserted successfully.
+
+Values in copy2 are:
+
+Year        Flow
+----------------
+1970      100.34
+2000      110.22
+1999      110.99
+1945      145.66
+1971      209.99
+1900      220.11
+1989      234.98
+1946      300.99
+2012      459.99
+2013     2000.34
+
+The annual average of the flow is: 389.361 million cubic meters.
+The median flow is: 215.05 million cubic meters.
+
+Values in copy1 are:
+
+Year        Flow
+----------------
+1970      100.34
+2000      110.22
+1999      110.99
+1945      145.66
+1922      192.99
+1971      209.99
+1900      220.11
+2001      231.44
+1989      234.98
+1946      300.99
+2012      459.99
+2013     2000.34
+
+The annual average of the flow is: 359.837 million cubic meters.
+The median flow is: 215.05 million cubic meters.
+
+Values in x are:
+
+Year        Flow
+----------------
+1970      100.34
+2000      110.22
+1999      110.99
+1945      145.66
+1922      192.99
+1971      209.99
+1900      220.11
+2001      231.44
+1989      234.98
+1946      300.99
+
+The annual average of the flow is: 185.771 million cubic meters.
+The median flow is: 201.49 million cubic meters.
