@@ -168,7 +168,7 @@ void OLList::remove(const ListItem& itemA)
 
 
 
-  	before->next = maybe_doomed->next;
+    before->next = maybe_doomed->next;
 
 
 
@@ -194,21 +194,21 @@ void OLList::destroy()
 
 
 
-  // this function is not properly designed. As part part of the exercise B
-
-  // students are supposed to complete the definition of this helper function. 
-
 Node *srcPtr;
+
+// With a new node to hold the head, move the head forward and free the new node
+
+// until head becomes null.
 
 while(headM != NULL)
 
 {
 
-	srcPtr=headM;
+  srcPtr=headM;
 
-	headM = headM->next;
+  headM = headM->next;
 
-	free(srcPtr);
+  free(srcPtr);
 
 }
 
@@ -222,65 +222,59 @@ void OLList::copy(const OLList& source)
 
 {
 
-  // The only effect of the next line is to tell the compiler
 
-  // not to generate an "unused argument" warning.  Don't leave it
 
-  // it in your solution.
+  // Check to see if passed OLList is null.
 
-//  (void) source;
+  if(source.headM == 0)
 
-//
+  {
 
-//  cout << "OLList::copy was called but isn't ready for use"
+    headM = 0;
 
-//       << "--program is terminated.\n";
+  }
 
-//  exit(1);
+  else
 
-	if(source.headM == 0)
+  {
 
-	{
+  Node *srcPtr = new Node; // Create a pointer for the source.
 
-		headM = 0;
+  srcPtr = source.headM; // Set source pointer to source head.
 
-	}
+  Node *newCpy = new Node; // Set a new node for copying.
 
-	else
+  Node *cpyPtr = newCpy; // Set a node to point to the node for copying.
 
-	{
 
-	Node *srcPtr = new Node;
 
-	srcPtr = source.headM;
+  // While the pointer is not NULL.
 
-	Node *newCpy = new Node;
+  // Copy each item from source via the pointer to the newCpy node.
 
-	Node *cpyPtr = newCpy;
+  while(srcPtr)
 
-	while(srcPtr)
+  {
 
-	{
+    newCpy->item=srcPtr->item;
 
-		newCpy->item=srcPtr->item;
+    if(srcPtr->next !=0) // While source ptr next is not null, set the points for the new node.
 
-		if(srcPtr->next !=0)
+    {
 
-		{
+    newCpy->next = new Node;
 
-		newCpy->next = new Node;
+    newCpy = newCpy->next;
 
-		newCpy = newCpy->next;
+    }
 
-		}
+    srcPtr = srcPtr->next;
 
-		srcPtr = srcPtr->next;
+  }
 
-	}
+  headM = cpyPtr; // Set this.headM to the cpyPtr's
 
-	headM = cpyPtr;
-
-	}
+  }
 
 
 
